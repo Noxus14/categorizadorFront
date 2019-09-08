@@ -1,0 +1,89 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="transaction-table">
+    <template>
+            <style>
+                body {
+                    background: skyblue;
+                }
+                    
+                table {
+                    width: 100%;
+                    margin: auto;
+                    text-align: center;
+                    table-layout: fixed;
+                }
+                    
+                table,
+                tr,
+                th,
+                td {
+                    padding: 20px;
+                    color: white;
+                    border: 1px solid #080808;
+                    border-collapse: collapse;
+                    font-size: 18px;
+                    font-family: Arial;
+                    background: linear-gradient(top, #3c3c3c 0%, #222222 100%);
+                    background: -webkit-linear-gradient(top, #3c3c3c 0%, #006EC1 100%);
+                }
+                    
+                td:hover {
+                    background: rgb(4, 0, 236);
+                }
+            </style>
+
+            <iron-ajax
+                id="transactionAPI"
+                auto
+                url="http://localhost:3000/hackbbva/transactions"
+                method="GET"
+                headers='{"Access-Control-Allow-Origin" : "http://localhost:3000"}'
+                handle-as="json"
+                last-response="{{data}}"
+            ></iron-ajax>
+
+
+            
+        <div>
+             
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cuenta</th>
+                            <th>Cod. Movimiento</th>
+                            <th>Cd. Transaccion</th>
+                            <th>Cd. Operacion</th>
+                            <th>Concepto</th>
+                        </tr>
+                        <template is="dom-repeat" items="[[data]]">
+                        <tr>
+                            <td>[[item.date]]</td>
+                            <td>[[item.cuenta]]</td>
+                            <td>[[item.cod_mov]]</td>
+                            <td>[[item.cd_trx]]</td>
+                            <td>[[item.cd_ope]]</td>
+                            <td>$[[item.cod_concep]]</td>
+                        </tr>
+                        </template>
+    </tbody>
+    </table>
+
+    </div>
+
+    </template>
+    <script>
+        class TransactionTable extends Polymer.Element {
+            static get is() {
+                return 'transaction-table';
+            }
+
+            static get properties() {
+                return {}
+            }
+        }
+        window.customElements.define(TransactionTable.is, TransactionTable);
+    </script>
+</dom-module>
